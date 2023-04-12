@@ -1,6 +1,20 @@
 import argparse
 from pathlib import Path
 import os
+import win32com.client
+
+def convertToPdf(paths):
+    word_instance = win32com.client.Dispatch("Word.Application")
+    wdFromatPDF = 17
+
+    if paths['bulk']:
+        print("Converting files from the given folder")
+        for filepath in Path(paths['input']).glob('*.doc*'):
+            pdf_path = Path(paths['output'] / (str(filepath.stem) + ".pdf"))
+            document = word.Documents.Open(str(filepath))
+            document.SaveAs(str(pdf_path), FileFormat=wdFromatPDF)
+            doc.close(0)
+    
 
 def identify_path(in_path, out_path=None):
     # Resolve paths to handle relative paths
@@ -8,12 +22,12 @@ def identify_path(in_path, out_path=None):
     if out_path is not None:
         out_path = Path(out_path).resolve()
 
-    dic = {}
+    paths = {}
     # Condition when the path is a file
     if os.path.isfile(in_path):
         print("Path is a file.")
-        dic['bulk'] = False
-        dic['input'] = str(in_path)
+        paths['bulk'] = False
+        paths['input'] = str(in_path)
 
         if out_path and os.path.isdir(out_path):
             out_path = os.path.join(out_path, in_path.stem) + ".pdf"
@@ -23,13 +37,25 @@ def identify_path(in_path, out_path=None):
         else:
             out_path = os.path.join(in_path.parent, in_path.stem) + ".pdf"
 
-        dic['output'] = out_path
+        paths['output'] = out_path
 
     # Condition when the path is a folder
     else:
         print("Path is a folder.")
-        dic['bulk'] = True
-        dic['input'] = in_path
+        paths['bulk'] = True
+        paths['input'] = str(in_path)
+
+        if out_path and os.path.isdir(out_path):
+            continue
+        elif out_path:
+            print("Path does not exist")
+            sys.exit(0)
+        else:
+            out_path = str(in_path)
+
+        paths['output'] = out_path
+
+    return paths
 
 def main():
 
@@ -42,6 +68,8 @@ def main():
 
     args = parser.parse_args()
 
-    identify_path(args.inpath, args.outpath)
+    paths = identify_path(args.inpath, args.outpath)
+
+    convertToPdf(paths)
 
 main()
