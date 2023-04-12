@@ -25,11 +25,11 @@ def identify_path(in_path, out_path=None):
 
         dic['output'] = out_path
 
-    # # Condition when the path is a folder
-    # else:
-    #     print("Path is a folder.")
-    #     dic['bulk'] = True
-    #     dic['input'] = 
+    # Condition when the path is a folder
+    else:
+        print("Path is a folder.")
+        dic['bulk'] = True
+        dic['input'] = in_path
 
 def main():
 
