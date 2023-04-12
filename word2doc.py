@@ -31,7 +31,7 @@ def identify_path(in_path, out_path=None):
         out_path = Path(out_path).resolve()
 
     # print("in_path ", in_path)
-    # print("Folder ", in_path.is_dir())
+    # print("Folder ", in_path.is_dir()) 
     # print("out_path ", out_path)
     # print("Folder ", out_path.is_dir())
 
