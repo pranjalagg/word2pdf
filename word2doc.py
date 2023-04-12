@@ -8,8 +8,8 @@ def identify_path(in_path, out_path=None):
     if out_path is not None:
         out_path = Path(out_path).resolve()
 
-
     dic = {}
+    # Condition when the path is a file
     if os.path.isfile(in_path):
         print("Path is a file.")
         dic['bulk'] = False
@@ -17,9 +17,19 @@ def identify_path(in_path, out_path=None):
 
         if out_path and os.path.isdir(out_path):
             out_path = os.path.join(out_path, in_path.stem) + ".pdf"
+        elif out_path:
+            print("Path does not exist")
+            sys.exit(0)
+        else:
+            out_path = os.path.join(in_path.parent, in_path.stem) + ".pdf"
 
-    else:
-        print("Path is a folder.")
+        dic['output'] = out_path
+
+    # # Condition when the path is a folder
+    # else:
+    #     print("Path is a folder.")
+    #     dic['bulk'] = True
+    #     dic['input'] = 
 
 def main():
 
