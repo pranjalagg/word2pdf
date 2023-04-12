@@ -3,6 +3,8 @@ from pathlib import Path
 import os
 import win32com.client
 import sys
+from tqdm import tqdm
+
 
 def convertToPdf(paths):
     word_instance = win32com.client.Dispatch("Word.Application")
@@ -10,7 +12,7 @@ def convertToPdf(paths):
 
     if paths['bulk']:
         print("Converting files from the given folder")
-        for filepath in Path(paths['input']).glob('*.doc*'):
+        for filepath in tqdm(Path(paths['input']).glob('*.doc*')):
             pdf_path = Path(paths['output']) / (str(filepath.stem) + ".pdf")
             document = word_instance.Documents.Open(str(filepath))
             document.SaveAs(str(pdf_path), FileFormat=wdFromatPDF)
