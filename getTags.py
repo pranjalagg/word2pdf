@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import win32com.client
 import sys
+from tqdm import tqdm
 
 def storeInfo(f, tags):
     for tag in list(tags.keys()):
@@ -15,7 +16,7 @@ def getTags(paths, rm):
     wdFormatDocumentDefault = 16
 
     if paths['bulk']:
-        for filepath in sorted(Path(paths['input']).glob("*.doc")):
+        for filepath in tqdm(sorted(Path(paths['input']).glob("*.doc"))):
             # if str(filepath).endswith(".doc"):
             doc_file = filepath.parent / filepath.stem
             # print(doc_file, ".docx")
@@ -26,7 +27,7 @@ def getTags(paths, rm):
                 os.remove(str(doc_file) + ".doc")
         
         f = open('Info.txt', "w+")
-        for filepath in sorted(Path(paths['input']).glob("*.docx")):
+        for filepath in tqdm(sorted(Path(paths['input']).glob("*.docx"))):
             # print(filepath)
             f.write("\n---- " + str(filepath.stem) + " ----\n")
             document = docx.Document(str(filepath))
@@ -59,7 +60,7 @@ def resolvePath(in_path):
     paths = {}
     if in_path.is_file():
         print('Getting info from file ...')
-        paths['bullk'] = False
+        paths['bulk'] = False
         paths['input'] = str(in_path)
 
     elif in_path.is_dir():
