@@ -71,7 +71,7 @@ def identify_path(in_path, out_path=None):
         paths['output'] = out_path
     
     else:
-        print("Please check your path and try again")
+        print("Please check your path and try again. Remember to remove the '\' at the end if it is a folder")
         sys.exit(0)
 
     return paths
