@@ -4,11 +4,14 @@ import os
 import win32com.client
 import sys
 from tqdm import tqdm
+import pyperclip as pc
 
 
 def convertToPdf(paths):
     word_instance = win32com.client.Dispatch("Word.Application")
     wdFromatPDF = 17
+
+    str_to_copy = ""
 
     if paths['bulk']:
         print("Converting files from the given folder")
@@ -17,6 +20,8 @@ def convertToPdf(paths):
             document = word_instance.Documents.Open(str(filepath))
             document.SaveAs(str(pdf_path), FileFormat=wdFromatPDF)
             document.Close(0)
+            str_to_copy += str(pdf_path) + "\n"
+            pc.copy(str_to_copy)
     
     else:
         print("Converting ...")
@@ -25,6 +30,8 @@ def convertToPdf(paths):
         document = word_instance.Documents.Open(str(filepath))
         document.SaveAs(str(pdf_path), FileFormat=wdFromatPDF)
         document.Close(0)
+        str_to_copy += str(pdf_path)
+        pc.copy(str_to_copy)
 
 def identify_path(in_path, out_path=None):
     # Resolve paths to handle relative paths
@@ -71,7 +78,7 @@ def identify_path(in_path, out_path=None):
         paths['output'] = out_path
     
     else:
-        print("Please check your path and try again. Remember to remove the '\' at the end if it is a folder")
+        print("Please check your path and try again. Remember to remove the '\\' at the end if it is a folder")
         sys.exit(0)
 
     return paths
