@@ -54,6 +54,28 @@ def getTags(paths, rm):
             # break
         f.close()
 
+    else:
+        filepath = Path(paths['input'])
+        # print(type(filepath))
+        document = word.Documents.Open(str(filepath))
+        document.SaveAs(str(filepath.parent / filepath.stem) + ".docx", FileFormat=wdFormatDocumentDefault)
+        document.Close(0)
+        if rm:
+            os.remove(str(filepath.parent / filepath.stem) + ".doc")
+        
+        f = open('Info.txt', "w+")
+        f.write("\n---- " + str(filepath.stem) + " ----\n")
+        document = docx.Document(str(filepath))
+
+        tags = {}
+        for line in document.paragraphs:
+            for word  in line.text.split():
+                temp = re.findall("«.*»", word)
+                try:
+                    tags[temp[0]] = tags.get(temp[0], 0) + 1
+                except:
+                    pass
+
 def resolvePath(in_path):
     in_path = Path(in_path).resolve()
 
