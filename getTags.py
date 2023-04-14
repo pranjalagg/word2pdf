@@ -23,8 +23,8 @@ def getTags(paths, rm):
             document = word.Documents.Open(str(filepath))
             document.SaveAs(str(doc_file) + ".docx", FileFormat=wdFormatDocumentDefault)
             document.Close(0)
-            # if rm:
-            #     os.remove(str(doc_file) + ".docx")
+            if rm:
+                os.remove(str(doc_file) + ".doc")
         
         f = open('Info.txt', "w+")
         for filepath in tqdm(sorted(Path(paths['input']).glob("*.docx"))):
@@ -40,7 +40,7 @@ def getTags(paths, rm):
                     # word_lst.append(word)
                     # word_lst.extend(re.findall("«.*»", word))
 
-                    temp = re.findall(".*»", word)
+                    temp = re.findall("«.*»", word)
                     # print(word, temp)
                     try:
                         tags[temp[0]] = tags.get(temp[0], 0) + 1
@@ -51,19 +51,21 @@ def getTags(paths, rm):
                 # print(word_lst)
             # print(tags)
             storeInfo(f, tags)
-            if rm:
-                os.remove(str(filepath))
+            # if rm:
+            #     os.remove(str(filepath))
             # break
         f.close()
 
     else:
         filepath = Path(paths['input'])
         # print(str(filepath))
-        document = word.Documents.Open(str(filepath))
-        document.SaveAs(str(filepath.parent / filepath.stem) + ".docx", FileFormat=wdFormatDocumentDefault)
-        document.Close(0)
-        # if rm:
-        #     os.remove(str(filepath.parent / filepath.stem) + ".docx")
+        if str(filepath).endswith(".doc"):
+            print("Here")
+            document = word.Documents.Open(str(filepath))
+            document.SaveAs(str(filepath.parent / filepath.stem) + ".docx", FileFormat=wdFormatDocumentDefault)
+            document.Close(0)
+            if rm:
+                os.remove(str(filepath.parent / filepath.stem) + ".doc")
         
         f = open('Info.txt', "w+")
         f.write("\n---- " + str(filepath.stem) + " ----\n")
@@ -72,15 +74,15 @@ def getTags(paths, rm):
         tags = {}
         for line in document.paragraphs:
             for word  in line.text.split():
-                temp = re.findall(".*»", word)
+                temp = re.findall("«.*»", word)
                 try:
                     tags[temp[0]] = tags.get(temp[0], 0) + 1
                 except:
                     pass
         
         storeInfo(f, tags)
-        if rm:
-                os.remove(str(filepath.parent / filepath.stem) + ".docx")
+        # if rm:
+        #         os.remove(str(filepath.parent / filepath.stem) + ".docx")
         f.close()
 
 def resolvePath(in_path):
