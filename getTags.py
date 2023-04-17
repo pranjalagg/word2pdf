@@ -60,7 +60,7 @@ def getTags(paths, rm):
         filepath = Path(paths['input'])
         # print(str(filepath))
         if str(filepath).endswith(".doc"):
-            print("Here")
+            # print("Here")
             document = word.Documents.Open(str(filepath))
             document.SaveAs(str(filepath.parent / filepath.stem) + ".docx", FileFormat=wdFormatDocumentDefault)
             document.Close(0)
