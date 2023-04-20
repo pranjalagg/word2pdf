@@ -35,14 +35,20 @@ def getTags(paths, rm):
             document = docx.Document(str(filepath))
 
             tags = {}
-            for line in document.paragraphs:
+            for i in range(len(document.paragraphs)):
+                line_str = document.paragraphs[i].text
+                if line_str.endswith('<br>'):
+                    continue
+                line_str += '<br>'
+                document.paragraphs[i].text = line_str
+                document.save(str(filepath))
                 # print(line.text)
                 # word_lst = []
                 # print(type(line.text))
                 # print(line.text)
-                line_str = line.text
-                line_str = line_str.replace('^p', '<br>')
-                line.text = line_str
+                # line_str = line.text
+                # line_str = line_str.replace('^p', '<br>')
+                # line.text = line_str
                 # f.write(line_str)
                 # break
                 # for word in line.text.split():
