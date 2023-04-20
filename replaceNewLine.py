@@ -6,6 +6,7 @@ from pathlib import Path
 import win32com.client
 import sys
 from tqdm import tqdm
+import helpers as hp
 
 def replaceTags(document, filepath):
     for i in range(len(document.paragraphs)):
@@ -46,39 +47,6 @@ def getTags(paths, rm):
             tags = {}
             for i in range(len(document.paragraphs)):
                 replaceTags(document, filepath)
-                # line_str = document.paragraphs[i].text
-                # if line_str.endswith('<br>'):
-                #     continue
-                # line_str += '<br>'
-                # document.paragraphs[i].text = line_str
-                # document.save(str(filepath))
-                # print(line.text)
-                # word_lst = []
-                # print(type(line.text))
-                # print(line.text)
-                # line_str = line.text
-                # line_str = line_str.replace('^p', '<br>')
-                # line.text = line_str
-                # f.write(line_str)
-                # break
-                # for word in line.text.split():
-                #     # word_lst.append(word)
-                #     # word_lst.extend(re.findall("«.*»", word))
-
-                #     temp = re.findall("«.*»", word)
-                #     # print(word, temp)
-                #     try:
-                #         tags[temp[0]] = tags.get(temp[0], 0) + 1
-                #     except:
-                #         # print('---ERROR---')
-                #         pass
-                
-                # print(word_lst)
-            # print(tags)
-            # storeInfo(f, tags)
-            # if rm:
-            #     os.remove(str(filepath))
-            # break
         f.close()
 
     else:
@@ -99,45 +67,8 @@ def getTags(paths, rm):
         # tags = {}
         for i in range(len(document.paragraphs)):
             replaceTags(document, filepath)
-            # line_str = document.paragraphs[i].text
-            # words_lst.append(line_str + '---//--')
-            # line_str = line_str.replace('\\n', '<br>')
-            # line_str += '<br>'
-            # document.paragraphs[i].text = line_str
-            # document.save(str(filepath))
-            # print(line_str)
-
-            # for word  in line.text.split():
-            #     temp = re.findall("«.*»", word)
-            #     try:
-            #         tags[temp[0]] = tags.get(temp[0], 0) + 1
-            #     except:
-            #         pass
-        
-        # storeInfo(f, tags)
-        # if rm:
-        #         os.remove(str(filepath.parent / filepath.stem) + ".docx")
         f.close()
 
-def resolvePath(in_path):
-    in_path = Path(in_path).resolve()
-
-    paths = {}
-    if in_path.is_file():
-        print('Getting info from file ...')
-        paths['bulk'] = False
-        paths['input'] = str(in_path)
-
-    elif in_path.is_dir():
-        print('Inside the directory ...')
-        paths['bulk'] = True
-        paths['input'] = str(in_path)
-
-    else:
-        print("Please check your path and try again. Remember to remove the '\\' at the end if it is a folder")
-        sys.exit(0)
-
-    return paths
 
 def main():
     # Initialise parser
@@ -145,12 +76,12 @@ def main():
 
     # Add arguments
     parser.add_argument('inpath', help="Path of the file or folder.")
-    parser.add_argument('--rm', default=False, help="Set to True, if in-place operation is needed")
+    # parser.add_argument('--rm', default=False, help="Set to True, if in-place operation is needed")
 
     args = parser.parse_args()
 
     # print(args.rm)
-    paths = resolvePath(args.inpath)
-    getTags(paths, args.rm)
+    paths = hp.resolvePath(args.inpath)
+    getTags(paths, False)
 
 main()
