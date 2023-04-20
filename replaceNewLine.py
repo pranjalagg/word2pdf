@@ -7,6 +7,15 @@ import win32com.client
 import sys
 from tqdm import tqdm
 
+def replaceTags(document, filepath):
+    for i in range(len(document.paragraphs)):
+        line_str = document.paragraphs[i].text
+        if line_str.endswith('<br>'):
+            continue
+        line_str += '<br>'
+        document.paragraphs[i].text = line_str
+        document.save(str(filepath))
+
 def storeInfo(f, tags):
     for tag in list(tags.keys()):
         # temp_tag = re.findall("«([^»]*)", tag)
@@ -36,12 +45,13 @@ def getTags(paths, rm):
 
             tags = {}
             for i in range(len(document.paragraphs)):
-                line_str = document.paragraphs[i].text
-                if line_str.endswith('<br>'):
-                    continue
-                line_str += '<br>'
-                document.paragraphs[i].text = line_str
-                document.save(str(filepath))
+                replaceTags(document, filepath)
+                # line_str = document.paragraphs[i].text
+                # if line_str.endswith('<br>'):
+                #     continue
+                # line_str += '<br>'
+                # document.paragraphs[i].text = line_str
+                # document.save(str(filepath))
                 # print(line.text)
                 # word_lst = []
                 # print(type(line.text))
@@ -65,7 +75,7 @@ def getTags(paths, rm):
                 
                 # print(word_lst)
             # print(tags)
-            storeInfo(f, tags)
+            # storeInfo(f, tags)
             # if rm:
             #     os.remove(str(filepath))
             # break
@@ -86,14 +96,15 @@ def getTags(paths, rm):
         f.write("\n---- " + str(filepath.stem) + " ----\n")
         document = docx.Document(str(filepath.parent / filepath.stem) + ".docx")
 
-        tags = {}
+        # tags = {}
         for i in range(len(document.paragraphs)):
-            line_str = document.paragraphs[i].text
+            replaceTags(document, filepath)
+            # line_str = document.paragraphs[i].text
             # words_lst.append(line_str + '---//--')
             # line_str = line_str.replace('\\n', '<br>')
-            line_str += '<br>'
-            document.paragraphs[i].text = line_str
-            document.save(str(filepath))
+            # line_str += '<br>'
+            # document.paragraphs[i].text = line_str
+            # document.save(str(filepath))
             # print(line_str)
 
             # for word  in line.text.split():
