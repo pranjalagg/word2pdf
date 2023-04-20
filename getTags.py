@@ -9,7 +9,8 @@ from tqdm import tqdm
 
 def storeInfo(f, tags):
     for tag in list(tags.keys()):
-        f.write(tag + "\n")
+        temp_tag = re.findall("«([^»]*)", tag)
+        f.write(temp_tag[0] + "\n")
 
 def getTags(paths, rm):
     word = win32com.client.Dispatch("Word.Application")
