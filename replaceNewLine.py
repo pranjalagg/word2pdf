@@ -35,7 +35,7 @@ def getTags(paths):
     else:
         filepath = Path(paths['input'])
         # print(str(filepath))
-        if str(filepath).endswith(".doc"):
+        if str(filepath).endswith(".doc") or str(filepath).endswith(".DOC"):
             # print("Here")
             hp.saveAsDocx(word, filepath)
         
