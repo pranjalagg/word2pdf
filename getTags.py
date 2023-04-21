@@ -25,32 +25,19 @@ def getTags(paths, rm):
         
         f = open('Info.txt', "w+")
         for filepath in tqdm(sorted(Path(paths['input']).glob("*.docx"))):
-            # print(filepath)
             f.write("\n---- " + str(filepath.stem) + " ----\n")
             document = docx.Document(str(filepath))
 
             tags = {}
             for line in document.paragraphs:
-                # print(line.text)
-                # word_lst = []
                 for word in line.text.split():
-                    # word_lst.append(word)
-                    # word_lst.extend(re.findall("«.*»", word))
-
                     temp = re.findall("«.*»", word)
-                    # print(word, temp)
                     try:
                         tags[temp[0]] = tags.get(temp[0], 0) + 1
                     except:
-                        # print('---ERROR---')
                         pass
                 
-                # print(word_lst)
-            # print(tags)
             storeInfo(f, tags)
-            # if rm:
-            #     os.remove(str(filepath))
-            # break
         f.close()
 
     else:
