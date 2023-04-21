@@ -29,21 +29,15 @@ def getTags(paths):
             document = docx.Document(str(filepath))
 
             replaceTags(document, filepath)
-            # for _ in range(len(document.paragraphs)):
-            #     replaceTags(document, filepath)
 
     else:
         filepath = Path(paths['input'])
-        # print(str(filepath))
         if str(filepath).endswith(".doc") or str(filepath).endswith(".DOC"):
-            # print("Here")
             hp.saveAsDocx(word, filepath)
         
         document = docx.Document(str(filepath.parent / filepath.stem) + ".docx")
 
         replaceTags(document, filepath)
-        # for _ in range(len(document.paragraphs)):
-        #     replaceTags(document, filepath)
 
 
 def main():
