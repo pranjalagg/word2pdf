@@ -13,7 +13,7 @@ def replaceTags(document, filepath):
             continue
         line_str += '<br>'
         document.paragraphs[i].text = line_str
-        document.save(str(filepath))
+    document.save(str(filepath))
 
 def getTags(paths):
     word = win32com.client.Dispatch("Word.Application")
@@ -29,21 +29,15 @@ def getTags(paths):
             document = docx.Document(str(filepath))
 
             replaceTags(document, filepath)
-            # for _ in range(len(document.paragraphs)):
-            #     replaceTags(document, filepath)
 
     else:
         filepath = Path(paths['input'])
-        # print(str(filepath))
-        if str(filepath).endswith(".doc"):
-            # print("Here")
+        if str(filepath).endswith(".doc") or str(filepath).endswith(".DOC"):
             hp.saveAsDocx(word, filepath)
         
         document = docx.Document(str(filepath.parent / filepath.stem) + ".docx")
 
         replaceTags(document, filepath)
-        # for _ in range(len(document.paragraphs)):
-        #     replaceTags(document, filepath)
 
 
 def main():
