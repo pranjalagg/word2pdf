@@ -18,13 +18,8 @@ def getTags(paths, rm):
 
     if paths['bulk']:
         for filepath in tqdm(sorted(Path(paths['input']).glob("*.doc"))):
-            # if str(filepath).endswith(".doc"):
             hp.saveAsDocx(word, filepath)
             doc_file = filepath.parent / filepath.stem
-            # print(doc_file, ".docx")
-            # document = word.Documents.Open(str(filepath))
-            # document.SaveAs(str(doc_file) + ".docx", FileFormat=wdFormatDocumentDefault)
-            # document.Close(0)
             if rm:
                 os.remove(str(doc_file) + ".doc")
         
@@ -60,13 +55,9 @@ def getTags(paths, rm):
 
     else:
         filepath = Path(paths['input'])
-        # print(str(filepath))
         if str(filepath).endswith(".doc") or str(filepath).endswith(".DOC"):
             print("Here")
             hp.saveAsDocx(word, filepath)
-            # document = word.Documents.Open(str(filepath))
-            # document.SaveAs(str(filepath.parent / filepath.stem) + ".docx", FileFormat=wdFormatDocumentDefault)
-            # document.Close(0)
             if rm:
                 os.remove(str(filepath.parent / filepath.stem) + ".doc")
         
@@ -84,8 +75,6 @@ def getTags(paths, rm):
                     pass
         
         storeInfo(f, tags)
-        # if rm:
-        #         os.remove(str(filepath.parent / filepath.stem) + ".docx")
         f.close()
 
 def main():
