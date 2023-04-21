@@ -14,16 +14,17 @@ def storeInfo(f, tags):
 
 def getTags(paths, rm):
     word = win32com.client.Dispatch("Word.Application")
-    wdFormatDocumentDefault = 16
+    # wdFormatDocumentDefault = 16
 
     if paths['bulk']:
         for filepath in tqdm(sorted(Path(paths['input']).glob("*.doc"))):
             # if str(filepath).endswith(".doc"):
+            hp.saveAsDocx(word, filepath)
             doc_file = filepath.parent / filepath.stem
             # print(doc_file, ".docx")
-            document = word.Documents.Open(str(filepath))
-            document.SaveAs(str(doc_file) + ".docx", FileFormat=wdFormatDocumentDefault)
-            document.Close(0)
+            # document = word.Documents.Open(str(filepath))
+            # document.SaveAs(str(doc_file) + ".docx", FileFormat=wdFormatDocumentDefault)
+            # document.Close(0)
             if rm:
                 os.remove(str(doc_file) + ".doc")
         
@@ -62,9 +63,10 @@ def getTags(paths, rm):
         # print(str(filepath))
         if str(filepath).endswith(".doc") or str(filepath).endswith(".DOC"):
             print("Here")
-            document = word.Documents.Open(str(filepath))
-            document.SaveAs(str(filepath.parent / filepath.stem) + ".docx", FileFormat=wdFormatDocumentDefault)
-            document.Close(0)
+            hp.saveAsDocx(word, filepath)
+            # document = word.Documents.Open(str(filepath))
+            # document.SaveAs(str(filepath.parent / filepath.stem) + ".docx", FileFormat=wdFormatDocumentDefault)
+            # document.Close(0)
             if rm:
                 os.remove(str(filepath.parent / filepath.stem) + ".doc")
         
