@@ -4,6 +4,7 @@ from pathlib import Path
 import win32com.client
 from tqdm import tqdm
 import helpers as hp
+import time
 
 def replaceTags(document, filepath):
     for i in range(len(document.paragraphs)):
@@ -27,8 +28,9 @@ def getTags(paths):
         for filepath in tqdm(sorted(Path(paths['input']).glob("*.docx"))):
             document = docx.Document(str(filepath))
 
-            for _ in range(len(document.paragraphs)):
-                replaceTags(document, filepath)
+            replaceTags(document, filepath)
+            # for _ in range(len(document.paragraphs)):
+            #     replaceTags(document, filepath)
 
     else:
         filepath = Path(paths['input'])
@@ -39,8 +41,9 @@ def getTags(paths):
         
         document = docx.Document(str(filepath.parent / filepath.stem) + ".docx")
 
-        for _ in range(len(document.paragraphs)):
-            replaceTags(document, filepath)
+        replaceTags(document, filepath)
+        # for _ in range(len(document.paragraphs)):
+        #     replaceTags(document, filepath)
 
 
 def main():
@@ -54,7 +57,10 @@ def main():
     args = parser.parse_args()
 
     # print(args.rm)
+    start = time.time()
     paths = hp.resolvePath(args.inpath)
     getTags(paths)
+    end = time.time()
+    print("Time taken: ", end-start)
 
 main()
