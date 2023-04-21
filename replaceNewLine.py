@@ -52,7 +52,7 @@ def main():
 
     # print(args.rm)
     start = time.time()
-    paths = hp.resolvePath(args.inpath)
+    paths = hp.resolvePath(args.inpath, None)
     getTags(paths)
     end = time.time()
     print("Time taken: ", end-start)
