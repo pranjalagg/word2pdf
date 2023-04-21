@@ -14,6 +14,11 @@ def extractTags(document, tags):
     return tags
 
 
+def saveAsPDF(word, filepath, pdf_path):
+    document = word.Documents.Open(str(filepath))
+    document.SaveAs(str(pdf_path), FileFormat=17) # wdFromatPDF = 17
+    document.Close(0)
+
 def saveAsDocx(word, filepath):
     print(f" Converting {filepath.stem} to .docx")
     doc_file = filepath.parent / filepath.stem
