@@ -45,7 +45,7 @@ def getTags(paths):
 
 def main():
     # Initialise parser
-    parser = argparse.ArgumentParser(description="Tool to extract specific tags from word document")
+    parser = argparse.ArgumentParser(description="Tool to replace new line characters with <br> tags in word file")
 
     # Add arguments
     parser.add_argument('inpath', help="Path of the file or folder.")
