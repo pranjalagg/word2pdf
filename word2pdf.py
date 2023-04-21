@@ -5,6 +5,7 @@ import win32com.client
 import sys
 from tqdm import tqdm
 import pyperclip as pc
+import helpers as hp
 
 
 def convertToPdf(paths):
@@ -33,55 +34,55 @@ def convertToPdf(paths):
         str_to_copy += str(pdf_path)
         pc.copy(str_to_copy)
 
-def identify_path(in_path, out_path=None):
-    # Resolve paths to handle relative paths
-    in_path = Path(in_path).resolve()
-    if out_path is not None:
-        out_path = Path(out_path).resolve()
+# def identify_path(in_path, out_path=None):
+#     # Resolve paths to handle relative paths
+#     in_path = Path(in_path).resolve()
+#     if out_path is not None:
+#         out_path = Path(out_path).resolve()
 
-    # print("in_path ", in_path)
-    # print("Folder ", in_path.is_dir()) 
-    # print("out_path ", out_path)
-    # print("Folder ", out_path.is_dir())
+#     # print("in_path ", in_path)
+#     # print("Folder ", in_path.is_dir()) 
+#     # print("out_path ", out_path)
+#     # print("Folder ", out_path.is_dir())
 
-    paths = {}
-    # Condition when the path is a file
-    if os.path.isfile(in_path):
-        print("Identified input as a file")
-        paths['bulk'] = False
-        paths['input'] = str(in_path)
+#     paths = {}
+#     # Condition when the path is a file
+#     if os.path.isfile(in_path):
+#         print("Identified input as a file")
+#         paths['bulk'] = False
+#         paths['input'] = str(in_path)
 
-        if out_path and os.path.isdir(out_path):
-            out_path = os.path.join(out_path, in_path.stem) + ".pdf"
-        elif out_path:
-            print("Output path does not exist")
-            sys.exit(0)
-        else:
-            out_path = os.path.join(in_path.parent, in_path.stem) + ".pdf"
+#         if out_path and os.path.isdir(out_path):
+#             out_path = os.path.join(out_path, in_path.stem) + ".pdf"
+#         elif out_path:
+#             print("Output path does not exist")
+#             sys.exit(0)
+#         else:
+#             out_path = os.path.join(in_path.parent, in_path.stem) + ".pdf"
 
-        paths['output'] = out_path
+#         paths['output'] = out_path
 
-    # Condition when the path is a folder
-    elif os.path.isdir(in_path):
-        print("Identified input as a folder")
-        paths['bulk'] = True
-        paths['input'] = str(in_path)
+#     # Condition when the path is a folder
+#     elif os.path.isdir(in_path):
+#         print("Identified input as a folder")
+#         paths['bulk'] = True
+#         paths['input'] = str(in_path)
 
-        if out_path and os.path.isdir(out_path):
-            pass
-        elif out_path:
-            print("Path does not exist")
-            sys.exit(0)
-        else:
-            out_path = str(in_path)
+#         if out_path and os.path.isdir(out_path):
+#             pass
+#         elif out_path:
+#             print("Path does not exist")
+#             sys.exit(0)
+#         else:
+#             out_path = str(in_path)
 
-        paths['output'] = out_path
+#         paths['output'] = out_path
     
-    else:
-        print("Please check your path and try again. Remember to remove the '\\' at the end if it is a folder")
-        sys.exit(0)
+#     else:
+#         print("Please check your path and try again. Remember to remove the '\\' at the end if it is a folder")
+#         sys.exit(0)
 
-    return paths
+#     return paths
 
 def main():
 
@@ -95,7 +96,7 @@ def main():
     args = parser.parse_args()
 
     # print(args.outpath)
-    paths = identify_path(args.inpath, args.outpath)
+    paths = hp.resolvePath(args.inpath, args.outpath)
 
     convertToPdf(paths)
 

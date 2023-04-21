@@ -30,14 +30,6 @@ def getTags(paths, rm):
 
             tags = {}
             tags = hp.extractTags(document, tags)
-            # for line in document.paragraphs:
-            #     for word in line.text.split():
-            #         temp = re.findall("«.*»", word)
-            #         try:
-            #             tags[temp[0]] = tags.get(temp[0], 0) + 1
-            #         except:
-            #             pass
-                
             storeInfo(f, tags)
         f.close()
 
@@ -55,14 +47,6 @@ def getTags(paths, rm):
 
         tags = {}
         tags = hp.extractTags(document, tags)
-        # for line in document.paragraphs:
-        #     for word  in line.text.split():
-        #         temp = re.findall("«.*»", word)
-        #         try:
-        #             tags[temp[0]] = tags.get(temp[0], 0) + 1
-        #         except:
-        #             pass
-        
         storeInfo(f, tags)
         f.close()
 
@@ -77,7 +61,7 @@ def main():
     args = parser.parse_args()
 
     # print(args.rm)
-    paths = hp.resolvePath(args.inpath)
+    paths = hp.resolvePath(args.inpath, None)
     getTags(paths, args.rm)
 
 main()
