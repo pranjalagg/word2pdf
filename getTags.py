@@ -29,13 +29,14 @@ def getTags(paths, rm):
             document = docx.Document(str(filepath))
 
             tags = {}
-            for line in document.paragraphs:
-                for word in line.text.split():
-                    temp = re.findall("«.*»", word)
-                    try:
-                        tags[temp[0]] = tags.get(temp[0], 0) + 1
-                    except:
-                        pass
+            tags = hp.extractTags(document, tags)
+            # for line in document.paragraphs:
+            #     for word in line.text.split():
+            #         temp = re.findall("«.*»", word)
+            #         try:
+            #             tags[temp[0]] = tags.get(temp[0], 0) + 1
+            #         except:
+            #             pass
                 
             storeInfo(f, tags)
         f.close()
@@ -53,13 +54,14 @@ def getTags(paths, rm):
         document = docx.Document(str(filepath.parent / filepath.stem) + ".docx")
 
         tags = {}
-        for line in document.paragraphs:
-            for word  in line.text.split():
-                temp = re.findall("«.*»", word)
-                try:
-                    tags[temp[0]] = tags.get(temp[0], 0) + 1
-                except:
-                    pass
+        tags = hp.extractTags(document, tags)
+        # for line in document.paragraphs:
+        #     for word  in line.text.split():
+        #         temp = re.findall("«.*»", word)
+        #         try:
+        #             tags[temp[0]] = tags.get(temp[0], 0) + 1
+        #         except:
+        #             pass
         
         storeInfo(f, tags)
         f.close()

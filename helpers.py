@@ -1,5 +1,17 @@
 from pathlib import Path
 import sys
+import re
+
+def extractTags(document, tags):
+    for line in document.paragraphs:
+        for word in line.text.split():
+            regex_lst = re.findall("«.*»", word)
+            try:
+                tags[regex_lst[0]] = tags.get(regex_lst[0], 0) + 1
+            except:
+                pass
+    return tags
+
 
 def saveAsDocx(word, filepath):
     print(f" Converting {filepath.stem} to .docx")
