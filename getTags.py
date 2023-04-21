@@ -4,8 +4,8 @@ import re
 import os
 from pathlib import Path
 import win32com.client
-import sys
 from tqdm import tqdm
+import helpers as hp
 
 def storeInfo(f, tags):
     for tag in list(tags.keys()):
@@ -60,8 +60,8 @@ def getTags(paths, rm):
     else:
         filepath = Path(paths['input'])
         # print(str(filepath))
-        if str(filepath).endswith(".doc"):
-            # print("Here")
+        if str(filepath).endswith(".doc") or str(filepath).endswith(".DOC"):
+            print("Here")
             document = word.Documents.Open(str(filepath))
             document.SaveAs(str(filepath.parent / filepath.stem) + ".docx", FileFormat=wdFormatDocumentDefault)
             document.Close(0)
@@ -86,26 +86,6 @@ def getTags(paths, rm):
         #         os.remove(str(filepath.parent / filepath.stem) + ".docx")
         f.close()
 
-def resolvePath(in_path):
-    in_path = Path(in_path).resolve()
-
-    paths = {}
-    if in_path.is_file():
-        print('Getting info from file ...')
-        paths['bulk'] = False
-        paths['input'] = str(in_path)
-
-    elif in_path.is_dir():
-        print('Inside the directory ...')
-        paths['bulk'] = True
-        paths['input'] = str(in_path)
-
-    else:
-        print("Please check your path and try again. Remember to remove the '\\' at the end if it is a folder")
-        sys.exit(0)
-
-    return paths
-
 def main():
     # Initialise parser
     parser = argparse.ArgumentParser(description="Tool to extract specific tags from word document")
@@ -117,7 +97,7 @@ def main():
     args = parser.parse_args()
 
     # print(args.rm)
-    paths = resolvePath(args.inpath)
+    paths = hp.resolvePath(args.inpath)
     getTags(paths, args.rm)
 
 main()
