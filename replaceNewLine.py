@@ -13,7 +13,7 @@ def replaceTags(document, filepath):
             continue
         line_str += '<br>'
         document.paragraphs[i].text = line_str
-        document.save(str(filepath))
+    document.save(str(filepath))
 
 def getTags(paths):
     word = win32com.client.Dispatch("Word.Application")
