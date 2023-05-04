@@ -8,7 +8,7 @@ import helpers as hp
 
 def convertToPdf(paths):
     word = win32com.client.Dispatch("Word.Application")
-    wdFromatPDF = 17
+    # wdFromatPDF = 17
 
     str_to_copy = ""
 
