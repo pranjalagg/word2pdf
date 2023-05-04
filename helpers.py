@@ -2,6 +2,8 @@ from pathlib import Path
 import sys
 import re
 import os
+from tqdm import tqdm
+import win32com.client
 
 def extractTags(document, tags):
     for line in document.paragraphs:
@@ -67,6 +69,11 @@ def resolvePath(in_path, out_path=None):
         sys.exit(0)
 
     return paths
+
+def convertDocFilesToDocx(path):
+    word = win32com.client.Dispatch("Word.Application")
+    for filepath in tqdm(sorted(Path(path).glob("*.doc"))):
+        saveAsDocx(word, filepath)
 
 # def resolvePath(in_path):
 #     in_path = Path(in_path).resolve()

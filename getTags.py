@@ -17,11 +17,12 @@ def getTags(paths, rm):
     # wdFormatDocumentDefault = 16
 
     if paths['bulk']:
-        for filepath in tqdm(sorted(Path(paths['input']).glob("*.doc"))):
-            hp.saveAsDocx(word, filepath)
-            doc_file = filepath.parent / filepath.stem
-            if rm:
-                os.remove(str(doc_file) + ".doc")
+        hp.convertDocFilesToDocx(paths['input'])
+        # for filepath in tqdm(sorted(Path(paths['input']).glob("*.doc"))):
+            # hp.saveAsDocx(word, filepath)
+            # doc_file = filepath.parent / filepath.stem
+            # if rm:
+            #     os.remove(str(doc_file) + ".doc")
         
         f = open('Info.txt', "w+")
         for filepath in tqdm(sorted(Path(paths['input']).glob("*.docx"))):
